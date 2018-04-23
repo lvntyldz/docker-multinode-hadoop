@@ -19,7 +19,7 @@ $ ./run.sh <SLAVE_CONTAINER_COUNT>
 ```
 
 
-### Sample
+### Sample(Create Container)
 To create a master container and 2 slave containers which will be related master containers run below commands.
 
 ```sh
@@ -27,6 +27,17 @@ $ git clone https://github.com/lvntyldz/docker-multinode-hadoop.git
 $ cd docker-multinode-hadoop
 $ ./run.sh 2
 ```
+
+## Sample Word Count
+Follow below steps to run the word count example that is "hello world" of  hadoop community.
+```sh
+$ cd codeSamples/
+```
+This script counts of word in a text file that contains A.SANCAR's summary of life.
+```sh
+$ ./src/run/wc/run.sh
+```
+
 
 ## Web UI
 Visit these urls from local browser
