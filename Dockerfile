@@ -6,8 +6,8 @@ RUN apt-get update
 RUN apt-get install openjdk-8-jdk -y
 RUN apt-get install -y wget
 RUN apt-get install -y openssh-server
-RUN wget https://archive.apache.org/dist/hadoop/core/hadoop-2.7.5/hadoop-2.7.5.tar.gz -P ~/Downloads
-RUN tar zxvf ~/Downloads/hadoop-2.7.5.tar.gz  -C /usr/local
+RUN wget https://archive.apache.org/dist/hadoop/core/hadoop-3.2.2/hadoop-3.2.2.tar.gz -P ~/Downloads
+RUN tar zxvf ~/Downloads/hadoop-3.2.2.tar.gz  -C /usr/local
 RUN mv /usr/local/hadoop-* /usr/local/hadoop
 
 RUN mkdir /var/hadoop
