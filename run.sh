@@ -15,8 +15,13 @@ do
     echo "slave$i" >> ./conf/slaves
 done
 
+# Check if the hadoopNetwork exists before attempting to remove it
+if [[ $(docker network ls -f name=hadoopNetwork -q) ]]; then
+    docker network rm hadoopNetwork
+fi
+
 #Create a network named "hadoopNetwork"
-docker network rm hadoopNetwork && docker network create -d bridge   --subnet 172.25.0.0/16  hadoopNetwork
+docker network create -d bridge --subnet 172.25.0.0/16 hadoopNetwork
 
 #Create base hadoop image named "base-hadoop:1.0"
 docker build -t base-hadoop:1.0 .
