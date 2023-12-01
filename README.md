@@ -29,7 +29,7 @@ $ ./run.sh 2
 ```
 
 ## Sample Word Count
-Follow below steps to run the word count example that is "hello world" of  hadoop community.
+Ensure that "maven" is installed in your machine to compile Java code, than follow below steps to run the word count example that is "hello world" of  hadoop community.
 ```sh
 $ cd codeSamples/
 ```
