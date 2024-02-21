@@ -12,7 +12,8 @@ RUN mv /usr/local/hadoop-* /usr/local/hadoop
 
 RUN mkdir /var/hadoop
 
-ENV  JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/jre/
+
+ENV  JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64    
 ENV  PATH $PATH:$JAVA_HOME/bin
 ENV  HADOOP_HOME /usr/local/hadoop
 ENV  PATH $PATH:$HADOOP_HOME/bin
