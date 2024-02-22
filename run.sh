@@ -27,20 +27,17 @@ docker network create -d bridge --subnet 172.25.0.0/16 hadoopNetwork
 docker build -t base-hadoop:1.0 .
 
 # Run base-hadoop:1.0 image as master container
-docker run -itd --network="hadoopNetwork" --ip 172.25.0.100 -p 50070:50070 -p 8088:8088 --name master --hostname master base-hadoop:1.0
+docker run -itd --network="hadoopNetwork" --ip 172.25.0.100 -p 9864:9864 -p 9870:9870 -p 8088:8088 -p 50070:50070 --name master --hostname master base-hadoop:1.0
 
 # Run base-hadoop:1.0 image as slave containers
 for (( c=1; c<=$slaveCount; c++ )); do
     tmpName="slave$c"
     # Run base-hadoop:1.0 image as slave container
-    docker run -itd --network="hadoopNetwork" --ip "172.25.0.10$c" --name $tmpName --hostname $tmpName base-hadoop:1.0
+    docker run -itd --network="hadoopNetwork" -p 9864:9864 --ip "172.25.0.10$c" --name $tmpName --hostname $tmpName base-hadoop:1.0
 done
 
 # Run Hadoop commands inside the master container
 docker exec -ti master bash -c "hadoop namenode -format && /usr/local/hadoop/sbin/start-dfs.sh && /usr/local/hadoop/sbin/start-yarn.sh"
-
-# Sort and remove duplicate entries in slaves file
-docker exec -ti master bash -c "sort /usr/local/hadoop/etc/hadoop/slaves | uniq > /tmp/slaves_temp && mv /tmp/slaves_temp /usr/local/hadoop/etc/hadoop/slaves"
 
 # Drop into a bash shell within the master container for further interaction
 docker exec -ti master bash

@@ -1,9 +1,7 @@
 FROM ubuntu:20.04
 
-MAINTAINER Levent YILDIZ <dev.levent.yildiz@gmail.com>
-
 RUN apt-get update
-RUN apt-get install openjdk-11-jdk -y
+RUN apt-get install openjdk-8-jdk -y
 RUN apt-get install -y wget
 RUN apt-get install -y openssh-server
 RUN wget https://downloads.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz -P ~/Downloads
@@ -13,7 +11,7 @@ RUN mv /usr/local/hadoop-* /usr/local/hadoop
 RUN mkdir /var/hadoop
 
 
-ENV  JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
+ENV  JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/jre/
 ENV  PATH $PATH:$JAVA_HOME/bin
 ENV  HADOOP_HOME /usr/local/hadoop
 ENV  PATH $PATH:$HADOOP_HOME/bin
