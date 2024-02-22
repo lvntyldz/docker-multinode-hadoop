@@ -1,44 +1,37 @@
-#!/bin/bash
-
-# Set default slave container count if it's unset
-if [ -z "$1" ]; then
+#set default slave container count if its unset
+if [ -z "$1" ]
+  then
     slaveCount=1
-else
-    slaveCount=$1
+  else
+  	slaveCount=$1
 fi
 
-echo "$slaveCount slave and 1 master container will be created..."
+echo "$slaveCount slave and 1 master  container will be created..."
 
-# Add all slave container names to slaves file
-for (( i=1; i<=$slaveCount; i++ )); do
-    echo "Exporting slave$i to slaves file..."
+#add all slave containers name  to slaves file
+for (( i=1; i<=$slaveCount; i++ ))
+do
+    echo "Exporting slave$i to salves file..."
     echo "slave$i" >> ./conf/slaves
 done
 
-# Check if the hadoopNetwork exists before attempting to remove it
-if [[ $(docker network ls -f name=hadoopNetwork -q) ]]; then
-    docker network rm hadoopNetwork
-fi
+#Create a network named "hadoopNetwork"
+docker network rm hadoopNetwork && docker network create -d bridge   --subnet 172.25.0.0/16  hadoopNetwork
 
-# Create a network named "hadoopNetwork"
-docker network create -d bridge --subnet 172.25.0.0/16 hadoopNetwork
-
-# Create base hadoop image named "base-hadoop:1.0"
+#Create base hadoop image named "base-hadoop:1.0"
 docker build -t base-hadoop:1.0 .
 
-# Run base-hadoop:1.0 image as master container
-docker run -itd --network="hadoopNetwork" --ip 172.25.0.100 -p 9864:9864 -p 9870:9870 -p 8088:8088 --name master --hostname master base-hadoop:1.0
+#run base-hadoop:1.0 image  as master container
+docker run -itd  --network="hadoopNetwork"  --ip 172.25.0.100  -p 9870:9870  -p 8088:8088 -p 9864:9864 --name master --hostname master  base-hadoop:1.0
 
-# Run base-hadoop:1.0 image as slave containers
-for (( c=1; c<=$slaveCount; c++ )); do
+
+for (( c=1; c<=$slaveCount; c++ ))
+do
     tmpName="slave$c"
-    # Run base-hadoop:1.0 image as slave container
-    docker run -itd --network="hadoopNetwork" --ip "172.25.0.10$c" -p "9864:9864$c" --name $tmpName --hostname $tmpName base-hadoop:1.0
+    #run base-hadoop:1.0 image  as slave container
+    docker run -itd  --network="hadoopNetwork"  --ip "172.25.0.10$c" --name $tmpName --hostname $tmpName  base-hadoop:1.0
 done
 
-# Run Hadoop commands inside the master container
-docker exec -ti master bash -c "hadoop namenode -format && /usr/local/hadoop/sbin/start-dfs.sh && /usr/local/hadoop/sbin/start-yarn.sh"
-
-# Drop into a bash shell within the master container for further interaction
+#run hadoop commands
+docker exec -ti master bash  -c "hadoop namenode -format && /usr/local/hadoop/sbin/start-dfs.sh && /usr/local/hadoop/sbin/start-yarn.sh"
 docker exec -ti master bash
-
