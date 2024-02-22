@@ -1,18 +1,18 @@
-#set default slave container count if its unset
+#set default worker container count if its unset
 if [ -z "$1" ]
   then
-    slaveCount=1
+    workerCount=1
   else
-  	slaveCount=$1
+  	workerCount=$1
 fi
 
-echo "$slaveCount slave and 1 master  container will be created..."
+echo "$workerCount worker and 1 master  container will be created..."
 
-#add all slave containers name  to slaves file
-for (( i=1; i<=$slaveCount; i++ ))
+#add all worker containers name  to workers file
+for (( i=1; i<=$workerCount; i++ ))
 do
-    echo "Exporting slave$i to salves file..."
-    echo "slave$i" >> ./conf/slaves
+    echo "Exporting worker$i to salves file..."
+    echo "worker$i" >> ./conf/workers
 done
 
 #Create a network named "hadoopNetwork"
@@ -25,15 +25,14 @@ docker build -t base-hadoop:1.0 .
 docker run -itd  --network="hadoopNetwork"  --ip 172.25.0.100  -p 9870:9870  -p 8088:8088 -p 9864:9864 --name master --hostname master  base-hadoop:1.0
 
 
-for (( c=1; c<=$slaveCount; c++ ))
+for (( c=1; c<=$workerCount; c++ ))
 do
-    tmpName="slave$c"
-    #run base-hadoop:1.0 image  as slave container
+    tmpName="worker$c"
+    #run base-hadoop:1.0 image  as worker container
     docker run -itd  --network="hadoopNetwork"  --ip "172.25.0.10$c" --name $tmpName --hostname $tmpName  base-hadoop:1.0
 
-    # Start datanode service inside the slave container
-    docker exec $tmpName hdfs --daemon start datanode
-    docker exec $tmpName yarn --daemon start nodemanager
+    # Start datanode service inside the worker container
+
 
 done
 

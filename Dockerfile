@@ -28,7 +28,7 @@ RUN mv /tmp/mapred-site.xml /usr/local/hadoop/etc/hadoop/mapred-site.xml
 RUN mv /tmp/hdfs-site.xml /usr/local/hadoop/etc/hadoop/hdfs-site.xml
 RUN mv /tmp/yarn-site.xml /usr/local/hadoop/etc/hadoop/yarn-site.xml
 RUN mv /tmp/masters /usr/local/hadoop/etc/hadoop/masters
-RUN mv /tmp/slaves /usr/local/hadoop/etc/hadoop/slaves
+RUN mv /tmp/workers /usr/local/hadoop/etc/hadoop/workers
 
 RUN /tmp/env.sh
 
