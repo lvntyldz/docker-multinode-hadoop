@@ -30,8 +30,13 @@ do
     tmpName="slave$c"
     #run base-hadoop:1.0 image  as slave container
     docker run -itd  --network="hadoopNetwork"  --ip "172.25.0.10$c" --name $tmpName --hostname $tmpName  base-hadoop:1.0
+
+    # Start datanode service inside the slave container
+    docker exec $tmpName hdfs --daemon start datanode
+    docker exec $tmpName yarn --daemon start nodemanager
+
 done
 
 #run hadoop commands
-docker exec -ti master bash  -c "hadoop namenode -format && /usr/local/hadoop/sbin/start-dfs.sh && /usr/local/hadoop/sbin/start-yarn.sh"
+docker exec -ti master bash  -c "hadoop namenode -format && usr/local/hadoop/sbin/start-dfs.sh && yarn --daemon start nodemanager && yarn --daemon start resourcemanager"
 docker exec -ti master bash
