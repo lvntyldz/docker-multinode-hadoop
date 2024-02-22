@@ -37,5 +37,6 @@ do
 done
 
 #run hadoop commands
-docker exec -ti master bash  -c "hadoop namenode -format && usr/local/hadoop/sbin/start-dfs.sh && yarn --daemon start nodemanager && yarn --daemon start resourcemanager"
+
+docker exec -ti master bash  -c "hadoop namenode -format && /usr/local/hadoop/sbin/start-dfs.sh && yarn --daemon start resourcemanager && yarn --daemon start nodemanager && mapred --daemon start historyserver"
 docker exec -ti master bash
