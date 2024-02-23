@@ -31,9 +31,6 @@ do
     #run base-hadoop:1.0 image  as worker container
     docker run -itd  --network="hadoopNetwork"  --ip "172.25.0.10$c" --name $tmpName --hostname $tmpName  base-hadoop:1.0
 
-    # Start datanode service inside the worker container
-
-
 done
 
 #run hadoop commands
