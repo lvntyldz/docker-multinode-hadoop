@@ -12,7 +12,7 @@ echo "$workerCount worker and 1 master container will be created..."
 
 # Add all worker container names to workers file
 for (( i=1; i<=$workerCount; i++ )); do
-    echo "Exporting worker$i to slaves file..."
+    echo "Exporting worker$i to workers file..."
     echo "worker$i" >> ./conf/workers
 done
 
@@ -37,6 +37,6 @@ for (( c=1; c<=$workerCount; c++ )); do
 done
 
 # Run hadoop commands
-docker exec -ti master bash -c "hadoop namenode -format && sleep 5 && /usr/local/hadoop/sbin/start-dfs.sh && sleep 5 && /usr/local/hadoop/sbin/start-yarn.sh && mapred --daemon start historyserver"
+docker exec -ti master bash -c "hadoop namenode -format && /usr/local/hadoop/sbin/start-dfs.sh && sleep 20 && /usr/local/hadoop/sbin/start-yarn.sh"
 
 docker exec -ti master bash
