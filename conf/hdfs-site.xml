@@ -5,4 +5,16 @@
         <name>dfs.replication</name>
         <value>3</value>
     </property>
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>/home/hadoop/data/nameNode</value>
+    </property>
+    <property>
+        <name>dfs.namenode.checkpoint.dir</name>
+        <value>/home/hadoop/data/namesecondary</value>
+    </property>
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>/home/hadoop/data/dataNode</value>
+    </property>
 </configuration>
