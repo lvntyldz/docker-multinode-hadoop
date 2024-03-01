@@ -37,6 +37,6 @@ for (( c=1; c<=$workerCount; c++ )); do
 done
 
 # Run hadoop commands
-docker exec -ti master bash -c "hadoop namenode -format && /usr/local/hadoop/sbin/start-dfs.sh && sleep 20 && /usr/local/hadoop/sbin/start-yarn.sh"
+docker exec -ti master bash -c "hadoop namenode -format && /usr/local/hadoop/sbin/start-dfs.sh && /usr/local/hadoop/sbin/start-yarn.sh"
 
 docker exec -ti master bash
