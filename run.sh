@@ -24,16 +24,16 @@ fi
 # Create a network named "hadoopNetwork"
 docker network create -d bridge --subnet 172.25.0.0/16 hadoopNetwork
 
-# Create base hadoop image named "base-hadoop:1.0"
-docker build -t base-hadoop:1.0 .
+# Create base hadoop image named "base-hadoop"
+docker build -t base-hadoop .
 
 # Run base-hadoop:1.0 image as master container
-docker run -itd --network="hadoopNetwork" --ip 172.25.0.100 -p 9870:9870 -p 8088:8088 -p 9864:9864 --name master --hostname master base-hadoop:1.0
+docker run -itd --network="hadoopNetwork" --ip 172.25.0.100 -p 9870:9870 -p 8088:8088 -p 9864:9864 --name master --hostname master base-hadoop
 
 for (( c=1; c<=$workerCount; c++ )); do
     tmpName="worker$c"
     # Run base-hadoop:1.0 image as worker container
-    docker run -itd --network="hadoopNetwork" --ip "172.25.0.10$c" --name $tmpName --hostname $tmpName base-hadoop:1.0
+    docker run -itd --network="hadoopNetwork" --ip "172.25.0.10$c" --name $tmpName --hostname $tmpName base-hadoop
 done
 
 # Run hadoop commands
