@@ -71,7 +71,7 @@ docker build -t base-hadoop .
 `Step: 4`: Start the master container on the **master host/node**
 
 ```sh
-docker run -itd  --name master --net hadoop-overlay --ip 10.0.9.22 --hostname master --add-host worker1:10.0.9.23 --add-host worker2:10.0.9.24 -p 8080:8080 -p 8088:8088 -p 9870:9870 base-hadoop
+docker run -itd --name master --net hadoop-overlay --ip 10.0.9.22 --hostname master --add-host worker1:10.0.9.23 --add-host worker2:10.0.9.24 -p 8081:8080 -p 8089:8088 -p 9871:9870 base-hadoop
 ```
 
 `Step: 5`: Start the worker container 1 on **slave host/node**
